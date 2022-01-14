@@ -5,7 +5,7 @@ Summary:        System profiling, app tracing and trace analysis tool.
 
 License:        Apache License 2.0
 URL:            https://github.com/google/perfetto
-Source0:        %{name}-%{version}.tar.gz
+Source0:        https://github.com/google/%name/archive/v%version/%name-%version.tar.gz
 
 #gn needs this
 BuildRequires:	openssl >= 1.0
