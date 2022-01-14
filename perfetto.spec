@@ -4,8 +4,8 @@ Release:        1%{?dist}
 Summary:        System profiling, app tracing and trace analysis tool.
 
 License:        Apache License 2.0
-URL:            https://github.com/google/perfetto
-Source0:        %{name}-%{version}.tar.gz
+URL:            https://github.com/google/%{name}
+Source0:        https://github.com/google/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
 
 #gn needs this
 BuildRequires:	openssl >= 1.0
@@ -13,7 +13,10 @@ BuildRequires:	openssl >= 1.0
 BuildRequires:  gn
 BuildRequires:  ninja-build
 BuildRequires:  gcc python
-BuildRequires:  clang
+BuildRequires:  clang llvm-googletest
+BuildRequires:  clang-tools-extra
+BuildRequires:  protobuf-devel
+BuildRequires:  libcxx libcxxabi
 BuildRequires:  sqlite jsoncpp bloaty linenoise protobuf libcxx libcxxabi libunwind lzma zlib
 #BuildRequires:  sqlite_src bionic libfuzzer benchmark libbacktrace googletest clang-format
 #BuildRequires:  android-core android-unwinding android-libbase android-libprocinfo android-logging
@@ -26,15 +29,11 @@ library for analyzing traces using SQL and a web-based UI to visualize and
 explore multi-GB traces.
 
 %prep
-%autosetup
-
+%autosetup -p1
 
 
 %build
-#generate the build configuration
-tools/install-build-deps
-tools/gn gen --args='is_debug=false' out/linux
-#some uncertainties about using vpath_buildir or builddir....name...
+gn gen --args='is_debug=false' out/linux
 %ninja_build -C out/linux tracebox traced traced_probes perfetto
 
 
